@@ -11,7 +11,7 @@ on:
       - main
     # Only run this workflow if the commit has modified files from frontend
     paths:
-      - frontend/**
+      - static/**
 
 env:
   IMAGE_NAME: frontend-a4-infernashwin
@@ -24,7 +24,7 @@ jobs:
     if: github.event_name == 'push'
     defaults:
       run:
-        working-directory: frontend
+        working-directory: static
 
     steps:
       - uses: actions/checkout@v2

@@ -12,7 +12,7 @@ import { authenticateToken } from "../middleware/authenticator.js";
 
 export const userRouter = Router();
 
-/** What are the userRouter routes?
+/** What are the userRouter routes??
  * * - POST /users/register: Register a new user
  * * - POST /users/login: Log in an existing user
  * * - GET /users/signout: Log out a user (not implemented, but can be added later)
