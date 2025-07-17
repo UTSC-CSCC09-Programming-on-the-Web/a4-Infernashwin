@@ -51,7 +51,7 @@ jobs:
             docker run -d \
               --name frontend-a4 \
               --restart unless-stopped \
-              -p 8081:80 \
+              -p 8081:3000 \
               ${IMAGE_PREFIX}${IMAGE_NAME}:${VERSION}
 
             IMAGE_NAME=backend-a4-infernashwin
