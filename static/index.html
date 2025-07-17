@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>"C09 A3"</title>
+    <link href="styles/cols.css" rel="stylesheet" type="text/css" />
+    <link href="styles/main.css" rel="stylesheet" type="text/css" />
+    <link href="styles/popup.css" rel="stylesheet" type="text/css" />
+    <link href="styles/btn.css" rel="stylesheet" type="text/css" />
+    <link href="styles/content.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body class="app-body">
+    <header class="app-header flex-row">
+      <a href="/" id="title" class="title col-6">The Gallery!</a>
+      <div class="button-container col-4" id="button-container">
+        <div
+          class="signed-in-user col-4 signed-in-user-header"
+          id="signed-in-user"
+        ></div>
+        <!-- The buttons will be rendered here by JS -->
+      </div>
+    </header>
+
+    <!-- Div for error message-->
+
+    <div class="content-container" id="content">
+      <div class="gallery col-6" id="gallery">
+        <div class="gallery-header">
+          <p class="col-auto gallery-details" id="imgDetails">
+            <strong> </strong>
+          </p>
+          <div class="col-1 add-comment" id="commentImage"></div>
+          <div class="col-1 delete-btn" id="deleteImage"></div>
+        </div>
+        <div class="gallery-image" id="imgDisplay">
+          <img />
+        </div>
+        <div class="nav">
+          <div class="col-1 prev" id="prevImage"></div>
+          <div class="col-auto page-counter" id="currentImage">1/2</div>
+          <div class="col-1 next" id="nextImage"></div>
+        </div>
+      </div>
+      <div class="comment-container col-6" id="comment-container">
+        <div class="comment-list" id="comments">
+          <div class="comment row">
+            <div class="comment-metadata">
+              <p class="comment-author col-8"></p>
+              <p class="comment-date col-auto"></p>
+              <div class="col-2 delete-btn"></div>
+            </div>
+            <p class="commentText col-12"></p>
+          </div>
+        </div>
+        <div class="nav">
+          <div class="col-1 prev" id="prevComment"></div>
+          <div class="col-auto page-counter" id="currentComment"></div>
+          <div class="col-1 next" id="nextComment"></div>
+        </div>
+      </div>
+    </div>
+    <div class="nav">
+      <div class="col-1 prev" id="prevGallery"></div>
+      <div class="col-auto page-counter" id="currentGallery"></div>
+      <div class="col-1 next" id="nextGallery"></div>
+    </div>
+    <footer class="app-footer">
+      <a href="/credits.html">credits</a>
+    </footer>
+    <script src="js/api-service.js"></script>
+    <script src="js/meact.js"></script>
+    <script src="js/index.js"></script>
+  </body>
+</html>

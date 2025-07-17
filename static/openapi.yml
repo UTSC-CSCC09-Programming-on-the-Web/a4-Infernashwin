@@ -1,0 +1,239 @@
+# Prompt used to generate this OpenAPI specification:
+# "Generate an OpenAPI 3.0 YAML specification for a RESTful photo gallery API with the following endpoints:
+# - POST /photos: Upload a photo (multipart/form-data: file, title, author). Returns photo metadata.
+# - GET /photos: List photos with pagination (page, limit). Returns paginated photo list.
+# - GET /photos/{id}: Get photo metadata by id.
+# - GET /photos/{id}/image: Get the image file by id.
+# - DELETE /photos/{id}: Delete a photo by id.
+# - POST /comments/{photoId}: Add a comment to a photo (author, content).
+# - GET /comments/{photoId}: List comments for a photo with pagination (page, limit).
+# - DELETE /comments/{commentId}: Delete a comment by id.
+# - DELETE /comments/all/{photoId}: Delete all comments for a photo."
+
+openapi: 3.0.0
+info:
+  title: Photo Gallery API
+  version: 1.0.0
+  description: RESTful API for a photo gallery with file uploads and comments.
+servers:
+  - url: http://localhost:3000
+paths:
+  /photos:
+    post:
+      summary: Upload a new photo
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                title:
+                  type: string
+                author:
+                  type: string
+              required:
+                - file
+                - title
+                - author
+      responses:
+        "201":
+          description: Photo uploaded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Photo"
+    get:
+      summary: List photos (paginated)
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+            default: 1
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            default: 1
+      responses:
+        "200":
+          description: Paginated photo list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  photos:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Photo"
+                  pages:
+                    type: integer
+                  currentPage:
+                    type: integer
+  /photos/{id}:
+    get:
+      summary: Get photo metadata by id
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Photo metadata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Photo"
+    delete:
+      summary: Delete a photo by id
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Photo deleted
+  /photos/{id}/image:
+    get:
+      summary: Get the image file by id
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: The image file
+          content:
+            image/*:
+              schema:
+                type: string
+                format: binary
+  /comments/{photoId}:
+    post:
+      summary: Add a comment to a photo
+      parameters:
+        - in: path
+          name: photoId
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                author:
+                  type: string
+                content:
+                  type: string
+              required:
+                - author
+                - content
+      responses:
+        "201":
+          description: Comment added
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Comment"
+    get:
+      summary: List comments for a photo (paginated)
+      parameters:
+        - in: path
+          name: photoId
+          required: true
+          schema:
+            type: integer
+        - in: query
+          name: page
+          schema:
+            type: integer
+            default: 1
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            default: 10
+      responses:
+        "200":
+          description: Paginated comment list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  comments:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Comment"
+                  pages:
+                    type: integer
+                  currentPage:
+                    type: integer
+  /comments/{commentId}:
+    delete:
+      summary: Delete a comment by id
+      parameters:
+        - in: path
+          name: commentId
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Comment deleted
+  /comments/all/{photoId}:
+    delete:
+      summary: Delete all comments for a photo
+      parameters:
+        - in: path
+          name: photoId
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: All comments deleted
+components:
+  schemas:
+    Photo:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        author:
+          type: string
+        filename:
+          type: string
+        date:
+          type: string
+          format: date-time
+    Comment:
+      type: object
+      properties:
+        id:
+          type: integer
+        imageId:
+          type: integer
+        author:
+          type: string
+        content:
+          type: string
+        date:
+          type: string
+          format: date-time

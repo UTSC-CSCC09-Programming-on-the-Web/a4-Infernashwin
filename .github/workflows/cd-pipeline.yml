@@ -1,0 +1,69 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'frontend/**'
+      - 'backend/**'
+
+env:
+  IMAGE_PREFIX: ghcr.io/${{ github.repository_owner }}/
+
+jobs:
+  build-frontend:
+    uses: ./.github/workflows/build-frontend.yml
+    secrets:
+      CR_PAT: ${{ secrets.CR_PAT }}
+
+  build-backend:
+    needs: build-frontend
+    uses: ./.github/workflows/build-backend.yml
+    secrets:
+      CR_PAT: ${{ secrets.CR_PAT }}
+
+  deploy:
+    needs: [ build-frontend, build-backend ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy Frontend & Backend via SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          # passphrase: ${{ secrets.SSH_KEY_PASSPHRASE }}
+          # port: 22  # omit if using default
+          envs: IMAGE_PREFIX,GITHUB_REF
+          script: |
+            IMAGE_PREFIX=$(echo $IMAGE_PREFIX | tr '[A-Z]' '[a-z]')
+
+            IMAGE_NAME=frontend-a4-infernashwin
+            
+            # Derive version from the ref (tags → numeric, branches → latest)
+            VERSION=$(echo "$GITHUB_REF" | sed -E 's,.*/([^/]+)$,\1,')
+            [[ "$GITHUB_REF" == "refs/tags/"* ]] && VERSION=${VERSION#v}
+            [ "$VERSION" == "main" ] && VERSION=latest
+          
+            # Frontend
+            docker pull ${IMAGE_PREFIX}${IMAGE_NAME}:${VERSION}
+            docker stop frontend || true && docker rm frontend || true
+            docker run -d \
+              --name frontend \
+              --restart unless-stopped \
+              -p 8081:80 \
+              ${IMAGE_PREFIX}${IMAGE_NAME}:${VERSION}
+
+            IMAGE_NAME=backend-a4-infernashwin
+
+            # Backend
+            docker pull ${IMAGE_PREFIX}${IMAGE_NAME}:${VERSION}
+            docker stop backend || true && docker rm backend || true
+            docker run -d \
+              --name backend \
+              --restart unless-stopped \
+              -p 3001:3000 \
+              ${IMAGE_PREFIX}${IMAGE_NAME}:${VERSION}
+        env:
+          IMAGE_PREFIX: ${{ env.IMAGE_PREFIX }}
+          GITHUB_REF: ${{ github.ref }}

@@ -1,0 +1,98 @@
+/* CSS Class for general structure of the code (header body ect) */
+
+/* Remove tag selectors and use only class selectors for styling */
+
+/* Remove or replace any rules like 'body', 'header', 'footer', 'html', etc. with class-based selectors. */
+
+/* Example: Instead of styling 'body', use '.app-body' and add that class to your <body> tag in HTML. */
+
+/* --- Remove these tag selectors --- */
+/* html { ... } */
+/* body { ... } */
+/* header { ... } */
+/* footer { ... } */
+
+/* Co-Pilot was used in an attempt to refactor the CSS code based on A1 feedback. */
+
+/* --- Replace with class-based selectors --- */
+.app-body {
+  background: #ffffff;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  color: #3c3d3f;
+  text-align: left;
+  max-width: 100%;
+  margin: auto;
+}
+
+.app-header {
+  display: flex;
+  margin-top: 36px;
+  height: auto;
+  width: 60%;
+  justify-content: center;
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+}
+
+.app-header .title {
+  color: black;
+  text-decoration: none;
+  margin: 0px;
+  width: 100%;
+  font-size: 48px;
+  text-align: center;
+  flex-grow: 1;
+  vertical-align: middle;
+}
+
+.app-footer {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.centered-text {
+  text-align: center;
+  margin: 20px 0;
+  width: 100%;
+  font-size: 30px;
+  text-align: center;
+}
+
+.signed-in-user-header {
+  font-size: 0.9em;
+  min-width: 120px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 16px 32px 0 0;
+  text-align: right;
+  z-index: 10;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.button-container .signed-in-user-header {
+  margin-bottom: 6px;
+  width: 100%;
+  text-align: center;
+}
+
+.button-container button {
+  margin: 0 6px;
+}
+
+.button-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+}
+
+/* Remove or comment out the original tag selectors at the top of this file. */

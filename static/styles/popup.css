@@ -1,0 +1,46 @@
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.popup-form {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  border: 2px solid #333;
+  width: 300px;
+  max-width: 90%;
+}
+
+.popup-form h2 {
+  margin-top: 0;
+}
+
+.popup-form label {
+  display: block;
+  margin: 12px 0 4px;
+}
+
+.popup-form input {
+  width: 100%;
+  padding: 6px;
+  margin-bottom: 8px;
+  box-sizing: border-box;
+}
+
+.popup-form button {
+  margin-right: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+}

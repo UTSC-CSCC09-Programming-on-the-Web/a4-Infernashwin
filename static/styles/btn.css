@@ -1,0 +1,171 @@
+/* CSS for all the different buttons used in the application */
+
+/* We have a button for adding new images, a button for adding new comments, a button for deleting images and comments (will be the same), and a next/previous button for navigating through images and comments */
+
+/* Specific button styles */
+.add-comment {
+  max-width: 40px;
+  max-height: 40px;
+  aspect-ratio: 1 / 1;
+  width: 25%;
+  height: 25%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 75%;
+  background-image: url("../media/comment-icon.svg");
+  border-radius: 50%;
+  border: 2px solid #3c3d3f;
+  padding: 10px;
+  margin: 10px;
+}
+.add-comment:hover {
+  background-color: #f0f0f0;
+  border-color: #3c3d3f;
+}
+.add-comment:active {
+  background-color: #d0d0d0;
+  border-color: #3c3d3f;
+}
+
+.delete-btn {
+  max-width: 40px;
+  max-height: 40px;
+  aspect-ratio: 1 / 1;
+  width: 25%;
+  height: 25%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 75%;
+  background-image: url("../media/delete-icon.png");
+  border-radius: 50%;
+  border: 2px solid #3c3d3f;
+  padding: 10px;
+  margin: 10px;
+}
+
+.delete-btn:hover {
+  background-color: #f0f0f0;
+  border-color: #3c3d3f;
+}
+.delete-btn:active {
+  background-color: #d0d0d0;
+  border-color: #3c3d3f;
+}
+
+.next {
+  max-width: 40px;
+  max-height: 24px;
+  aspect-ratio: 1 / 1;
+  width: 25%;
+  height: 25%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 75%;
+  background-image: url("../media/next-icon.svg");
+  border-radius: 50%;
+  border: 2px solid #3c3d3f;
+  padding: 10px;
+  margin: 10px;
+}
+
+.next:hover {
+  background-color: #f0f0f0;
+  border-color: #3c3d3f;
+}
+
+.next:active {
+  background-color: #d0d0d0;
+  border-color: #3c3d3f;
+}
+
+.prev {
+  max-width: 40px;
+  max-height: 24px;
+  aspect-ratio: 1 / 1;
+  width: 25%;
+  height: 25%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 75%;
+  background-image: url("../media/prev-icon.svg");
+  border-radius: 50%;
+  border: 2px solid #3c3d3f;
+  padding: 10px;
+  margin: 10px;
+}
+
+.prev:hover {
+  background-color: #f0f0f0;
+  border-color: #3c3d3f;
+}
+
+.prev:active {
+  background-color: #d0d0d0;
+  border-color: #3c3d3f;
+}
+
+.page-counter {
+  font-size: 16px;
+  color: #3c3d3f;
+  margin: 10px;
+  flex-grow: 1; /* Allow it to take up available space */
+  text-align: center; /* Center the text */
+}
+
+.add-btn {
+  max-width: 50px;
+  max-height: 50px;
+  aspect-ratio: 1 / 1;
+  width: 20%;
+  height: 20%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 75%;
+  background-image: url("../media/add-icon.png");
+  border-radius: 50%;
+  border: 2px solid #3c3d3f;
+  padding: 10px 20px 10px 20px;
+  margin: 10px;
+}
+
+.add-btn:hover {
+  background-color: #f0f0f0;
+  border-color: #3c3d3f;
+}
+
+.add-btn:active {
+  background-color: #d0d0d0;
+  border-color: #3c3d3f;
+}
+
+/* Button click animation */
+.add-btn,
+.add-comment,
+.delete-btn,
+.next,
+.prev {
+  transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.add-btn:active,
+.add-comment:active,
+.delete-btn:active,
+.next:active,
+.prev:active {
+  transform: scale(0.92);
+  box-shadow: 0 2px 8px rgba(60, 61, 63, 0.15);
+}
+
+/* Button container (flexbox that will contain 2 buttons) */
+.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+  gap: 10px; /* Space between buttons */
+  margin: 20px 0; /* Margin for the button container */
+}
+
+/* Responsive Design for the buttons */
+@media (max-width: 650px) {
+}
