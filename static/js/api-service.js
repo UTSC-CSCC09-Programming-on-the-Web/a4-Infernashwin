@@ -284,7 +284,7 @@ let apiService = (function () {
             throw new Error(error.error || "Signout failed");
           });
         }
-        // Clear the token from local storage
+        // Clear the token from local storages
         localStorage.removeItem("token");
         return response.json();
       })

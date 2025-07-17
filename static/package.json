@@ -1,14 +1,11 @@
 {
-  "name": "meact-app",
+  "name": "image-gallery-ui",
   "version": "1.0.0",
-  "description": "A Node.js app with api-service and meact modules",
-  "main": "index.js",
+  "description": "PLS PLS PLS PLS PLS PLS PLS PLS PLS PLS PLS PLS PLS PLS PLS PLS PLS",
   "scripts": {
-    "start": "node index.js"
+    "start": "http-server . -p 3000"
   },
-  "author": "Your Name",
-  "license": "MIT",
   "dependencies": {
-    "express": "^4.18.2"
+    "http-server": "^14.1.1"
   }
 }
