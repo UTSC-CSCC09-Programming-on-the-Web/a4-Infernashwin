@@ -16,7 +16,7 @@ import { photoRouter } from "./router/photo_router.js";
 import { userRouter } from "./router/user_router.js";
 import { galleryRouter } from "./router/gallery_router.js";
 
-// Initialize the database connection
+// Initialize the database connections
 try {
   await sequelize.authenticate();
   // Automatically detect all of your defined models and create (or modify) the tables for you.
