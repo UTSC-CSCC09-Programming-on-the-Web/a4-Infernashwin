@@ -39,18 +39,22 @@ let apiService = (function () {
 
   // Function to register a new user
   module.registerUser = function (username, password) {
+    console.log(`[API POST] Registering user: ${username}`);
     return fetch("/users/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, password }),
     })
       .then((response) => {
+        console.log(`[API POST] Register user response status: ${response.status}`, response);
         if (!response.ok) {
           return response.json().then((error) => {
+            console.error(`[API POST] Register user error:`, error);
             throw new Error(error.error || "Registration failed");
           });
         }
         return response.json().then((data) => {
+          console.log(`[API POST] Register user success:`, data);
           // Store the token in local storage for future requests
           const token =
             data.user && data.user.token ? data.user.token : data.token;
@@ -59,24 +63,29 @@ let apiService = (function () {
         });
       })
       .catch((error) => {
+        console.error(`[API POST] Register user failed:`, error);
         throw error;
       });
   };
 
   // Function to log in an existing user
   module.loginUser = function (username, password) {
+    console.log(`[API POST] Logging in user: ${username}`);
     return fetch("/users/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, password }),
     })
       .then((response) => {
+        console.log(`[API POST] Login user response status: ${response.status}`, response);
         if (!response.ok) {
           return response.json().then((error) => {
+            console.error(`[API POST] Login user error:`, error);
             throw new Error(error.error || "Login failed");
           });
         }
         return response.json().then((data) => {
+          console.log(`[API POST] Login user success:`, data);
           // Store the token in local storage for future requests
           const token =
             data.user && data.user.token ? data.user.token : data.token;
@@ -85,38 +94,57 @@ let apiService = (function () {
         });
       })
       .catch((error) => {
+        console.error(`[API POST] Login user failed:`, error);
         throw error;
       });
   };
 
   // Function to get user gallery with pagination
   module.getUserGallery = function (page = 1, limit = 10) {
-    return fetch(`/gallery?page=${page}&limit=${limit}`)
+    const url = `/gallery?page=${page}&limit=${limit}`;
+    console.log(`[API GET] Fetching user gallery: ${url}`);
+    return fetch(url)
       .then((response) => {
+        console.log(`[API GET] User gallery response status: ${response.status}`, response);
         if (!response.ok) {
           return response.json().then((error) => {
+            console.error(`[API GET] User gallery error:`, error);
             throw new Error(error.error || "Failed to fetch user gallery");
           });
         }
         return response.json();
       })
+      .then((data) => {
+        console.log(`[API GET] User gallery data received:`, data);
+        return data;
+      })
       .catch((error) => {
+        console.error(`[API GET] User gallery fetch failed:`, error);
         throw error;
       });
   };
 
   // Function to get user photos with pagination
   module.getUserPhotos = function (galleryId, page = 1, limit = 1) {
-    return fetch(`/gallery/${galleryId}/photos?page=${page}&limit=${limit}`)
+    const url = `/gallery/${galleryId}/photos?page=${page}&limit=${limit}`;
+    console.log(`[API GET] Fetching user photos: ${url}`);
+    return fetch(url)
       .then((response) => {
+        console.log(`[API GET] User photos response status: ${response.status}`, response);
         if (!response.ok) {
           return response.json().then((error) => {
+            console.error(`[API GET] User photos error:`, error);
             throw new Error(error.error || "Failed to fetch user photos");
           });
         }
         return response.json();
       })
+      .then((data) => {
+        console.log(`[API GET] User photos data received:`, data);
+        return data;
+      })
       .catch((error) => {
+        console.error(`[API GET] User photos fetch failed:`, error);
         throw error;
       });
   };
@@ -128,25 +156,34 @@ let apiService = (function () {
    * @returns {Promise<object>} The response from the server
    */
   module.uploadPhoto = function (title, photoFile) {
+    console.log(`[API POST] Uploading photo: ${title}`);
     const token = getTokenWithLog();
     if (!token) throw new Error("No token found in local storage");
     const formData = new FormData();
     formData.append("photo", photoFile);
     formData.append("title", title);
+    console.log(`[API POST] Upload photo form data:`, { title, photoFile: photoFile.name });
     return fetch(`/users/me/photos`, {
       method: "POST",
       headers: { Authorization: `${token}` },
       body: formData,
     })
       .then((response) => {
+        console.log(`[API POST] Upload photo response status: ${response.status}`, response);
         if (!response.ok) {
           return response.json().then((error) => {
+            console.error(`[API POST] Upload photo error:`, error);
             throw new Error(error.error || "Photo upload failed");
           });
         }
         return response.json();
       })
+      .then((data) => {
+        console.log(`[API POST] Upload photo success:`, data);
+        return data;
+      })
       .catch((error) => {
+        console.error(`[API POST] Upload photo failed:`, error);
         throw error;
       });
   };
@@ -155,27 +192,34 @@ let apiService = (function () {
   module.getPhotoComments = function (photoId, page = 1, limit = 10) {
     const token = getTokenWithLog();
     if (!token) throw new Error("No token found in local storage");
-    return fetch(
-      `/users/me/photos/${photoId}/comments?page=${page}&limit=${limit}`,
-      {
+    const url = `/users/me/photos/${photoId}/comments?page=${page}&limit=${limit}`;
+    console.log(`[API GET] Fetching photo comments: ${url}`);
+    return fetch(url, {
         headers: { Authorization: `${token}` },
-      }
-    )
+      })
       .then((response) => {
+        console.log(`[API GET] Photo comments response status: ${response.status}`, response);
         if (!response.ok) {
           return response.json().then((error) => {
+            console.error(`[API GET] Photo comments error:`, error);
             throw new Error(error.error || "Failed to fetch photo comments");
           });
         }
         return response.json();
       })
+      .then((data) => {
+        console.log(`[API GET] Photo comments data received:`, data);
+        return data;
+      })
       .catch((error) => {
+        console.error(`[API GET] Photo comments fetch failed:`, error);
         throw error;
       });
   };
 
   // Function to add a comment to a photo (for authenticated user)
   module.addPhotoComment = function (photoId, content, author) {
+    console.log(`[API POST] Adding comment to photo ${photoId}:`, { content, author });
     const token = getTokenWithLog();
     if (!token) throw new Error("No token found in local storage");
     return fetch(`/users/me/photos/${photoId}/comments`, {
@@ -187,20 +231,28 @@ let apiService = (function () {
       body: JSON.stringify({ content, author }),
     })
       .then((response) => {
+        console.log(`[API POST] Add comment response status: ${response.status}`, response);
         if (!response.ok) {
           return response.json().then((error) => {
+            console.error(`[API POST] Add comment error:`, error);
             throw new Error(error.error || "Failed to add comment");
           });
         }
         return response.json();
       })
+      .then((data) => {
+        console.log(`[API POST] Add comment success:`, data);
+        return data;
+      })
       .catch((error) => {
+        console.error(`[API POST] Add comment failed:`, error);
         throw error;
       });
   };
 
   // Function to delete a photo by ID (for authenticated user)
   module.deletePhoto = function (galleryId, photoId) {
+    console.log(`[API DELETE] Deleting photo ${photoId} from gallery ${galleryId}`);
     const token = getTokenWithLog();
     if (!token) throw new Error("No token found in local storage");
     return fetch(`/users/me/gallery/${galleryId}/photos/${photoId}`, {
@@ -208,20 +260,28 @@ let apiService = (function () {
       headers: { Authorization: `${token}` },
     })
       .then((response) => {
+        console.log(`[API DELETE] Delete photo response status: ${response.status}`, response);
         if (!response.ok) {
           return response.json().then((error) => {
+            console.error(`[API DELETE] Delete photo error:`, error);
             throw new Error(error.error || "Failed to delete photo");
           });
         }
         return response.json();
       })
+      .then((data) => {
+        console.log(`[API DELETE] Delete photo success:`, data);
+        return data;
+      })
       .catch((error) => {
+        console.error(`[API DELETE] Delete photo failed:`, error);
         throw error;
       });
   };
 
   // Function to delete a comment by ID (for authenticated user)
   module.deleteComment = function (galleryId, commentId) {
+    console.log(`[API DELETE] Deleting comment ${commentId} from gallery ${galleryId}`);
     const token = getTokenWithLog();
     if (!token) throw new Error("No token found in local storage");
     return fetch(`/users/me/gallery/${galleryId}/comments/${commentId}`, {
@@ -229,14 +289,21 @@ let apiService = (function () {
       headers: { Authorization: `${token}` },
     })
       .then((response) => {
+        console.log(`[API DELETE] Delete comment response status: ${response.status}`, response);
         if (!response.ok) {
           return response.json().then((error) => {
+            console.error(`[API DELETE] Delete comment error:`, error);
             throw new Error(error.error || "Failed to delete comment");
           });
         }
         return response.json();
       })
+      .then((data) => {
+        console.log(`[API DELETE] Delete comment success:`, data);
+        return data;
+      })
       .catch((error) => {
+        console.error(`[API DELETE] Delete comment failed:`, error);
         throw error;
       });
   };
@@ -246,21 +313,30 @@ let apiService = (function () {
     if (!token) {
       throw new Error("No token found in local storage");
     }
-    return fetch("/users/me", {
+    const url = "/users/me";
+    console.log(`[API GET] Fetching current user: ${url}`);
+    return fetch(url, {
       method: "GET",
       headers: {
         Authorization: `${token}`,
       },
     })
       .then((response) => {
+        console.log(`[API GET] Current user response status: ${response.status}`, response);
         if (!response.ok) {
           return response.json().then((error) => {
+            console.error(`[API GET] Current user error:`, error);
             throw new Error(error.error || "Failed to fetch user info");
           });
         }
         return response.json();
       })
+      .then((data) => {
+        console.log(`[API GET] Current user data received:`, data);
+        return data;
+      })
       .catch((error) => {
+        console.error(`[API GET] Current user fetch failed:`, error);
         throw error;
       });
   };
@@ -274,13 +350,17 @@ let apiService = (function () {
   module.signout = function () {
     const token = getTokenWithLog();
     if (!token) throw new Error("No token found in local storage");
-    return fetch("/users/signout", {
+    const url = "/users/signout";
+    console.log(`[API GET] User signout: ${url}`);
+    return fetch(url, {
       method: "GET",
       headers: { Authorization: `${token}` },
     })
       .then((response) => {
+        console.log(`[API GET] User signout response status: ${response.status}`, response);
         if (!response.ok) {
           return response.json().then((error) => {
+            console.error(`[API GET] User signout error:`, error);
             throw new Error(error.error || "Signout failed");
           });
         }
@@ -288,7 +368,12 @@ let apiService = (function () {
         localStorage.removeItem("token");
         return response.json();
       })
+      .then((data) => {
+        console.log(`[API GET] User signout successful:`, data);
+        return data;
+      })
       .catch((error) => {
+        console.error(`[API GET] User signout failed:`, error);
         throw error;
       });
   };

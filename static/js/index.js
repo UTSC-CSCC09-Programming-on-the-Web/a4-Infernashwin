@@ -43,6 +43,7 @@
 
   window.addEventListener("load", function () {
     // Set the initial pageIndex to 1
+    console.log(`[FRONTEND] Page loaded - fetching initial gallery`);
     apiService.getUserGallery(1, 1).then((data) => {
       setGallery(data);
     });
@@ -138,9 +139,11 @@
         alert("Please fill in all fields");
         return;
       }
+      console.log(`[FRONTEND] Uploading photo: ${title}`);
       apiService
         .uploadPhoto(title, file)
         .then(() => {
+          console.log(`[FRONTEND] Photo upload completed, refreshing gallery`);
           document.body.removeChild(overlay);
           // After upload, refresh the gallery for the current user
           const gallery = getGallery();
@@ -149,6 +152,7 @@
               ? gallery.users[0].id
               : null;
           if (userId) {
+            console.log(`[FRONTEND] Refreshing user photos for user: ${userId}`);
             apiService
               .getUserPhotos(userId, 1, 1)
               .then((data) => setImage(data));
@@ -199,12 +203,15 @@
           alert("Please fill in all fields");
           return;
         }
+        console.log(`[FRONTEND] Logging in user: ${username}`);
         apiService
           .loginUser(username, password)
           .then((data) => {
+            console.log(`[FRONTEND] Login successful, setting user data`);
             setUser(data.user); // Set the user data to make ui easier
             setAuth(true);
             document.body.removeChild(overlay);
+            console.log(`[FRONTEND] Refreshing gallery after login`);
             apiService.getUserGallery(1, 1).then((data) => setGallery(data)); // Refresh gallery after login
           })
           .catch((error) => {
@@ -254,12 +261,15 @@
           alert("Please fill in all fields");
           return;
         }
+        console.log(`[FRONTEND] Registering user: ${username}`);
         apiService
           .registerUser(username, password)
           .then((data) => {
+            console.log(`[FRONTEND] Registration successful, setting user data`);
             setUser(data.user); // Set the user data to make ui easier
             setAuth(true);
             document.body.removeChild(overlay);
+            console.log(`[FRONTEND] Refreshing gallery after registration`);
             apiService.getUserGallery(1, 1).then((data) => setGallery(data)); // Refresh gallery after registration
           })
           .catch((error) => {
@@ -271,9 +281,11 @@
   // Logout User will just set the user to null
   function logoutUser() {
     // Set user to null and clear gallery and image
+    console.log(`[FRONTEND] Logging out user`);
     apiService
       .signout()
       .then(() => {
+        console.log(`[FRONTEND] Signout successful, clearing user data`);
         setUser(null);
         setAuth(false);
       })
@@ -811,6 +823,7 @@
     // Get the current gallery page and decrement it
     const gallery = getGallery();
     if (gallery && gallery.page > 1) {
+      console.log(`[FRONTEND] Navigating to previous gallery page: ${gallery.page - 1}`);
       apiService
         .getUserGallery(gallery.page - 1, 1)
         .then((data) => {
@@ -826,6 +839,7 @@
     // Get the current gallery page and increment it
     const gallery = getGallery();
     if (gallery && gallery.page < gallery.totalPages) {
+      console.log(`[FRONTEND] Navigating to next gallery page: ${gallery.page + 1}`);
       apiService
         .getUserGallery(gallery.page + 1, 1)
         .then((data) => {
@@ -956,6 +970,7 @@
     }
 
     // Now we can display the gallery by setting the image and comments
+    console.log(`[FRONTEND] Fetching photos for user: ${users.id}`);
     apiService
       .getUserPhotos(users.id, 1, 1)
       .then((data) => {
@@ -1020,6 +1035,7 @@
     // Now we know we have a valid image, so we can render the gallery
     renderGallery(image.photos[0], page, totalPages);
 
+    console.log(`[FRONTEND] Fetching comments for photo: ${image.photos[0].id}`);
     apiService
       .getPhotoComments(image.photos[0].id, 1, 10)
       .then((data) => {
