@@ -15,7 +15,7 @@
   const IMAGE = "image";
   const USER = "user";
 
-  /** Here is the description of the state variables:
+  /** Here is the description of the state variabless:
   * - image: Holds the current image data to be displayed in the gallery.
   *   - the object structure is: 
         * page: The current page number of the image being displayed.
