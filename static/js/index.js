@@ -1098,10 +1098,13 @@
   // Loading useEffects
   meact.useEffect(() => {
     // If loading is true, then we should display the loading spinner
-    if (loading) {
-      document.querySelector("#loading").style.display = "block";
-    } else {
-      document.querySelector("#loading").style.display = "none";
+    const loadingElement = document.querySelector("#loading");
+    if (loadingElement) {
+      if (loading) {
+        loadingElement.style.display = "block";
+      } else {
+        loadingElement.style.display = "none";
+      }
     }
   }, [loading]);
 })();
