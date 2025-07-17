@@ -47,9 +47,9 @@ jobs:
           
             # Frontend
             docker pull ${IMAGE_PREFIX}${IMAGE_NAME}:${VERSION}
-            docker stop frontend || true && docker rm frontend || true
+            docker stop frontend-a4 || true && docker rm frontend-a4 || true
             docker run -d \
-              --name frontend \
+              --name frontend-a4 \
               --restart unless-stopped \
               -p 8081:80 \
               ${IMAGE_PREFIX}${IMAGE_NAME}:${VERSION}
@@ -58,9 +58,9 @@ jobs:
 
             # Backend
             docker pull ${IMAGE_PREFIX}${IMAGE_NAME}:${VERSION}
-            docker stop backend || true && docker rm backend || true
+            docker stop backend-a4 || true && docker rm backend-a4 || true
             docker run -d \
-              --name backend \
+              --name backend-a4 \
               --restart unless-stopped \
               -p 3001:3000 \
               ${IMAGE_PREFIX}${IMAGE_NAME}:${VERSION}

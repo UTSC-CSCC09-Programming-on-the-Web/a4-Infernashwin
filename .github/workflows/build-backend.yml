@@ -14,7 +14,7 @@ on:
       - backend/**
 
 env:
-  IMAGE_NAME: backend-a4-arinaazmi
+  IMAGE_NAME: backend-infernashwin
 
 jobs:
   push:
@@ -53,6 +53,7 @@ jobs:
           [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=${VERSION#v}
           [ "$VERSION" == "main" ] && VERSION=latest
 
+          echo "My actor is: ${{ github.actor }}"
           echo "Pushing $IMAGE_ID:$VERSION"
           docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
