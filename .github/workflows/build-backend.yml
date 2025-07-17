@@ -14,7 +14,7 @@ on:
       - backend/**
 
 env:
-  IMAGE_NAME: backend-infernashwin
+  IMAGE_NAME: backend-a4-infernashwin
 
 jobs:
   push:
